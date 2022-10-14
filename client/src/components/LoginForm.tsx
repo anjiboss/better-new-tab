@@ -1,12 +1,13 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GlobalContext from "../context/GlobalContext";
+import { RequestError } from "../types/types";
 import { toasti } from "../ultis/_visual";
 
 const LoginForm: React.FC = () => {
   const { setLogged } = useContext(GlobalContext);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -16,23 +17,20 @@ const LoginForm: React.FC = () => {
       method: "POST",
       url: `${import.meta.env.VITE_API_URL}/api/v1/auth/login`,
       data: {
-        email,
+        username,
         password,
       },
     })
-      .then(({ data, status }) => {
-        console.log(data);
-        if (status === 200) {
-          window.localStorage.setItem("accessToken", data.accessToken);
-          window.localStorage.setItem("refreshToken", data.refreshToken);
-          toasti("Log in success");
-          setLogged(true);
-          navigate("/");
-        }
+      .then(({ data }) => {
+        window.localStorage.setItem("accessToken", data.data.accessToken);
+        window.localStorage.setItem("refreshToken", data.data.refreshToken);
+        toasti("Log in success");
+        setLogged(true);
+        navigate("/");
       })
-      .catch((e: AxiosError) => {
+      .catch((e: RequestError) => {
         if (e.response) {
-          console.log(e.response.data);
+          console.log(e.response.data.error.message);
         }
       });
   };
@@ -43,9 +41,9 @@ const LoginForm: React.FC = () => {
         <div>
           <input
             type="text"
-            value={email}
+            value={username}
             placeholder="email"
-            onChange={(e) => setEmail(e.currentTarget.value)}
+            onChange={(e) => setUsername(e.currentTarget.value)}
           />
         </div>
         <div>

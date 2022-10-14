@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { toasti } from "./ultis/_visual";
 import "react-toastify/dist/ReactToastify.css";
+import { RequestError } from "./types/types";
 
 function App() {
   const [isFetching, setIsFetching] = useState(true);
@@ -29,14 +30,14 @@ function App() {
       .then(({ data }) => {
         setTimeout(() => {
           setIsFetching(false);
-        }, 1000); // test loading icon - remove setTimeout for instant load
-        if (data.success) {
+        }, 500); // test loading icon - remove setTimeout for instant load
+        if (data.ok) {
           setLogged(true);
         }
       })
-      .catch((e) => {
+      .catch((e: RequestError) => {
         setIsFetching(false);
-        toasti(e?.respone?.message?.message, "error");
+        toasti(e.response?.data.error.message, "error");
       });
   }, []);
 
