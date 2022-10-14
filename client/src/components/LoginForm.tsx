@@ -31,6 +31,7 @@ const LoginForm: React.FC = () => {
       .catch((e: RequestError) => {
         if (e.response) {
           console.log(e.response.data.error.message);
+          toasti(e.response.data.error.message, "error");
         }
       });
   };

@@ -1,6 +1,7 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { RequestError } from "../types/types";
 import { toasti } from "../ultis/_visual";
 
 const SignInForm: React.FC = () => {
@@ -28,14 +29,11 @@ const SignInForm: React.FC = () => {
         if (data.ok) {
           toasti("Register success");
           navigate("/login");
-        } else {
-          console.log(data);
         }
       })
-      .catch((e: AxiosError) => {
-        if (e.response && e.response.data) {
-          console.log(e.response.data);
-        }
+      .catch((e: RequestError) => {
+        console.log(e.response?.data.error);
+        toasti(e.response?.data.error.message, "error");
       });
   };
   return (

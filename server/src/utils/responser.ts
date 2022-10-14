@@ -17,7 +17,7 @@ export const responser = (
   const isOk = [100, 200].includes(HTTPStatus);
   res.status(HTTPStatus).json({
     ok: isOk ? true : false,
-    error: isOk
+    error: !isOk
       ? {
           message: messageOrError,
         }

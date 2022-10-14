@@ -17,9 +17,8 @@ const NavBar: React.FC = () => {
         headers: {
           Authorization: "Bearer " + refreshToken,
         },
-      }).then(({ data, status }) => {
-        if (status === 200) {
-          console.log(data);
+      }).then(({ data }) => {
+        if (data.ok) {
           window.localStorage.removeItem("refreshToken");
           window.localStorage.removeItem("accessToken");
           setLogged(false);
