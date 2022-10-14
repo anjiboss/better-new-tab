@@ -1,6 +1,8 @@
 import express from "express";
 import { tokenVerify } from "../middleware/token";
 import { dbclient } from "../server";
+import { responser } from "@utils/responser";
+import HttpStatusCode from "@utils/httpStatus";
 const router = express.Router();
 
 router.get("/profile", tokenVerify, async (req, res) => {
@@ -19,20 +21,9 @@ router.get("/profile", tokenVerify, async (req, res) => {
     },
   });
   if (!user) {
-    return res.json({
-      ok: false,
-      error: {
-        message: "User not found",
-      },
-    });
-  } else {
-    return res.json({
-      ok: true,
-      data: {
-        user,
-      },
-    });
+    return responser(res, HttpStatusCode.UNAUTHORIZED, "User not found");
   }
+  return responser(res, HttpStatusCode.OK, "Found", { user });
 });
 
 export { router as userRouter };
