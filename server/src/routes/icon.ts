@@ -1,3 +1,6 @@
+import { tokenVerify } from "@middleware/token";
+import HttpStatusCode from "@utils/httpStatus";
+import { responser } from "@utils/responser";
 import axios from "axios";
 import express from "express";
 const router = express.Router();
@@ -11,7 +14,7 @@ const router = express.Router();
  * (bypass cors)
  * @query url
  */
-router.get("/", async (req, res) => {
+router.get("/", tokenVerify, async (req, res) => {
   const url = (req.query.url as string) || "";
   const resp = await axios(`${url}/favicon.ico`, {
     headers: {
@@ -21,7 +24,7 @@ router.get("/", async (req, res) => {
   });
   const base64String = Buffer.from(resp.data, "binary").toString("base64");
 
-  res.json({
+  return responser(res, HttpStatusCode.OK, "Success", {
     base64: base64String,
   });
 });

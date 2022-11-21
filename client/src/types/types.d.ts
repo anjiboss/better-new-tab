@@ -13,3 +13,17 @@ export type RequestError = AxiosError<{
     message: string;
   };
 }>;
+
+export interface IStick {
+  id: string;
+  title: string;
+  url: string;
+  icon: {
+    isCached: boolean;
+    base64: string;
+  };
+  position: {
+    x: number;
+    y: number;
+  };
+}
