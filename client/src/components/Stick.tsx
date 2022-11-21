@@ -1,6 +1,5 @@
 import React, {
   CSSProperties,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -30,6 +29,23 @@ const stickStyle: CSSProperties = {
   flexDirection: "column",
 };
 
+const getIcon = async (stick: IStick) => {
+  const accessToken = window.localStorage.getItem("accessToken");
+  const resp = await axios(
+    `${import.meta.env.VITE_API_URL}/api/v1/icon/?url=${stick.url}`,
+    {
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    }
+  );
+  console.log(resp.data);
+  if (resp.data.ok) {
+    return "data:image/png;base64," + resp.data.data.base64;
+  }
+  return undefined;
+};
+
 const Stick: React.FC<StickProps> = ({ stick }) => {
   const { insertOrUpdateAndSave } = useContext(AppContext);
   const icon = useRef<HTMLImageElement>(null);
@@ -44,20 +60,27 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
     return isURL(stick.url);
   }, [stick.url]);
 
-  const getIcon = useCallback(async () => {
-    const resp = await axios(
-      `${import.meta.env.VITE_API_URL}/api/v1/icon/?url=${stick.url}`
-    );
-    if (resp.data.success) {
-      return "data:image/png;base64," + resp.data.base64;
-    }
-    return undefined;
-  }, [icon]);
   useEffect(() => {
     if (icon.current) {
-      getIcon();
+      if (stick.icon.isCached) {
+        icon.current.src = stick.icon.base64;
+      } else {
+        getIcon(stick).then((base64) => {
+          console.log(base64);
+          if (base64) {
+            icon.current!.src = base64;
+            insertOrUpdateAndSave({
+              ...stick,
+              icon: {
+                base64,
+                isCached: true,
+              },
+            });
+          }
+        });
+      }
     } else {
-      console.log("no ref");
+      toasti("no ref", "error");
     }
   }, [icon.current]);
 
