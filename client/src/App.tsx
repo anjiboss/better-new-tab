@@ -6,13 +6,12 @@ import Login from "./pages/Login";
 import SignIn from "./pages/SignIn";
 import NavBar from "./components/NavBar";
 import axios from "axios";
-import GlobalContext from "./context/GlobalContext";
 import { Circles } from "react-loading-icons";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 import { ToastContainer } from "react-toastify";
 import { toasti } from "./ultis/_visual";
-import "react-toastify/dist/ReactToastify.css";
 import { RequestError } from "./types/types";
+import GlobalContext from "./context/GlobalContext";
 
 function App() {
   const [isFetching, setIsFetching] = useState(true);
@@ -42,7 +41,12 @@ function App() {
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ logged, setLogged }}>
+    <GlobalContext.Provider
+      value={{
+        logged,
+        setLogged,
+      }}
+    >
       <ToastContainer />
       {isFetching ? (
         <div className="loading-container">
