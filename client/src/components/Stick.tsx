@@ -7,21 +7,24 @@ import React, {
 } from "react";
 import AppContext from "../context/AppContext";
 import { IStick } from "../types/types";
-import { isURL } from "../ultis/utils";
+import { getIcon, isURL } from "../ultis/utils";
 import { toasti } from "../ultis/_visual";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import axios from "axios";
 
 interface StickProps {
   children?: React.ReactNode;
   stick: IStick;
+  selected: IStick[];
+  select: (stick: IStick, isMultiple: boolean) => void;
+  unselect: (stick: IStick) => void;
 }
 
 const stickStyle: CSSProperties = {
-  height: 50,
-  width: 100,
-  padding: 10,
-  border: "1px solid #E5E059",
+  // height: 50,
+  width: "fit-content",
+  maxWidth: 100,
+  blockSize: "fit-content",
+  padding: "3px 5px",
   borderRadius: 10,
   display: "flex",
   alignItems: "center",
@@ -29,26 +32,14 @@ const stickStyle: CSSProperties = {
   flexDirection: "column",
 };
 
-const getIcon = async (stick: IStick) => {
-  const accessToken = window.localStorage.getItem("accessToken");
-  const resp = await axios(
-    `${import.meta.env.VITE_API_URL}/api/v1/icon/?url=${stick.url}`,
-    {
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    }
-  );
-  console.log(resp.data);
-  if (resp.data.ok) {
-    return "data:image/png;base64," + resp.data.data.base64;
-  }
-  return undefined;
-};
-
 const Stick: React.FC<StickProps> = ({ stick }) => {
   const { insertOrUpdateAndSave } = useContext(AppContext);
   const icon = useRef<HTMLImageElement>(null);
+
+  // TODO Add Selecting in future
+  // const isSelected = useMemo(() => {
+  //   return selected.find((_s) => _s.id === stick.id) ? true : false;
+  // }, [selected]);
 
   const handleDragStop = (_: DraggableEvent, data: DraggableData) => {
     insertOrUpdateAndSave({
@@ -66,7 +57,6 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
         icon.current.src = stick.icon.base64;
       } else {
         getIcon(stick).then((base64) => {
-          console.log(base64);
           if (base64) {
             icon.current!.src = base64;
             insertOrUpdateAndSave({
@@ -92,6 +82,9 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
     }
   };
 
+  // TODO Add Selecting in future
+  const handleClick = (_: React.MouseEvent) => {};
+
   return (
     <>
       <Draggable
@@ -103,9 +96,12 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
         onStop={handleDragStop}
       >
         <div
-          className="handle grabbable"
-          style={stickStyle}
+          className={"handle grabbable"}
+          style={{
+            ...stickStyle,
+          }}
           onDoubleClick={handleOpenURL}
+          onClick={handleClick}
         >
           {isUrlValid ? (
             <div
@@ -113,8 +109,16 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
                 display: "flex",
                 justifyContent: "center",
               }}
+              className="icon-container"
             >
-              <img ref={icon} alt="icon" />
+              <img
+                ref={icon}
+                alt="icon"
+                style={{
+                  width: 40,
+                  height: 40,
+                }}
+              />
             </div>
           ) : (
             <div></div>
