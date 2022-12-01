@@ -20,13 +20,15 @@ async function getSticks(): Promise<IStick[]> {
 
 const Home: React.FC = () => {
   const [sticks, setSticks] = useState<IStick[]>([]);
-  const { insertOrUpdateAndSave } = useStick(sticks);
+  const { insertOrUpdateAndSave, selectedStick, selectStick, unselectStick } =
+    useStick(sticks);
 
   useEffect(() => {
     getSticks().then((sticks) => {
       setSticks(sticks);
     });
   }, []);
+
   return (
     <AppContext.Provider value={{ sticks, setSticks, insertOrUpdateAndSave }}>
       <div>
@@ -34,7 +36,13 @@ const Home: React.FC = () => {
         <ToolBar />
         {/* Show Sticks */}
         {sticks.map((stick) => (
-          <Stick stick={stick} key={stick.id} />
+          <Stick
+            stick={stick}
+            key={stick.id}
+            selected={selectedStick}
+            select={selectStick}
+            unselect={unselectStick}
+          />
         ))}
       </div>
     </AppContext.Provider>

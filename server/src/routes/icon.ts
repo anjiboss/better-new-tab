@@ -15,7 +15,6 @@ const router = express.Router();
  * @query url
  */
 router.get("/", tokenVerify, async (req, res) => {
-  console.log("in route");
   const url = (req.query.url as string) || "";
   const resp = await axios(`${url}/favicon.ico`, {
     headers: {
