@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import DesktopCanvas from "../components/DesktopCanvas";
-import Stick from "../components/Stick";
 import ToolBar from "../components/ToolBar";
 import { KEY } from "../constant/default";
 import AppContext from "../context/AppContext";
@@ -21,8 +20,10 @@ async function getSticks(): Promise<IStick[]> {
 
 const Home: React.FC = () => {
   const [sticks, setSticks] = useState<IStick[]>([]);
-  const { insertOrUpdateAndSave, selectedStick, selectStick, unselectStick } =
-    useStick(sticks);
+  const {
+    insertOrUpdateAndSave,
+    // selectedStick, selectStick, unselectStick
+  } = useStick(sticks);
 
   useEffect(() => {
     getSticks().then((sticks) => {
