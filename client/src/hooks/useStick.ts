@@ -11,6 +11,7 @@ export const useStick = (sticks: IStick[]) => {
       KEY,
       JSON.stringify([...oldStick, stickToUpdate])
     );
+    console.log("DB updated for stick: ", stickToUpdate.title);
   };
 
   const selectStick = (stick: IStick, isMultiple: boolean) => {

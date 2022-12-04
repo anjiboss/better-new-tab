@@ -16,12 +16,15 @@ const router = express.Router();
  */
 router.get("/", tokenVerify, async (req, res) => {
   const url = (req.query.url as string) || "";
-  const resp = await axios(`${url}/favicon.ico`, {
-    headers: {
-      Origin: url,
-    },
-    responseType: "arraybuffer",
-  });
+  const resp = await axios(
+    `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=64`,
+    {
+      // headers: {
+      //   Origin: url,
+      // },
+      responseType: "arraybuffer",
+    }
+  );
   const base64String = Buffer.from(resp.data, "binary").toString("base64");
 
   return responser(res, HttpStatusCode.OK, "Success", {
