@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import DesktopCanvas from "../components/DesktopCanvas";
 import Stick from "../components/Stick";
 import ToolBar from "../components/ToolBar";
 import { KEY } from "../constant/default";
@@ -35,15 +36,7 @@ const Home: React.FC = () => {
         {/* <ToolBar> */}
         <ToolBar />
         {/* Show Sticks */}
-        {sticks.map((stick) => (
-          <Stick
-            stick={stick}
-            key={stick.id}
-            selected={selectedStick}
-            select={selectStick}
-            unselect={unselectStick}
-          />
-        ))}
+        <DesktopCanvas sticks={sticks} />
       </div>
     </AppContext.Provider>
   );
