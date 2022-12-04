@@ -25,6 +25,9 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
       ...{ position: { x: evt.target.attrs.x, y: evt.target.attrs.y } },
     });
   };
+  const isUrlValid = useMemo(() => {
+    return isURL(stick.url);
+  }, [stick.url]);
 
   useEffect(() => {
     if (stick.icon.isCached) {
@@ -45,6 +48,18 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
     }
   }, []);
 
+  const handleOpenURL = (evt: KonvaEventObject<MouseEvent>) => {
+    if (isUrlValid) {
+      if (evt.evt.metaKey || evt.evt.ctrlKey) {
+        window.open(stick.url, "_blank");
+      } else {
+        window.location.href = stick.url;
+      }
+    } else {
+      toasti("Not an URL, Please fix it", "warning");
+    }
+  };
+
   return (
     <Group
       x={stick.position.x}
@@ -52,6 +67,7 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
       width={40}
       draggable
       onDragEnd={handleDragStop}
+      onDblClick={handleOpenURL}
     >
       {/* TODO Make it look like desktop Icon */}
       <URLImage src={iconSrc} x={0} y={0} />
