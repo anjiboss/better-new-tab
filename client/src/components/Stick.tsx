@@ -64,14 +64,14 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
     <Group
       x={stick.position.x}
       y={stick.position.y}
-      width={40}
+      width={64}
       draggable
       onDragEnd={handleDragStop}
       onDblClick={handleOpenURL}
     >
       {/* TODO Make it look like desktop Icon */}
       <URLImage src={iconSrc} x={0} y={0} />
-      <Text text={stick.title} x={0} y={32} align="center" />
+      <Text text={stick.title} x={0} y={64} width={64} align="center" />
     </Group>
   );
 };
