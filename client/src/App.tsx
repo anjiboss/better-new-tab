@@ -27,9 +27,7 @@ function App() {
       },
     })
       .then(({ data }) => {
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 500); // test loading icon - remove setTimeout for instant load
+        setIsFetching(false);
         if (data.ok) {
           setLogged(true);
         }

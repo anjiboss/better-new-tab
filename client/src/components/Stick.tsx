@@ -71,7 +71,14 @@ const Stick: React.FC<StickProps> = ({ stick }) => {
     >
       {/* TODO Make it look like desktop Icon */}
       <URLImage src={iconSrc} x={0} y={0} />
-      <Text text={stick.title} x={0} y={64} width={64} align="center" />
+      <Text
+        text={stick.title}
+        x={0}
+        y={64}
+        width={64}
+        fill="white"
+        align="center"
+      />
     </Group>
   );
 };

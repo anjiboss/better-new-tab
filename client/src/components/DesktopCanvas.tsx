@@ -11,7 +11,7 @@ interface DesktopCanvasProps {
 
 const DesktopCanvas: React.FC<DesktopCanvasProps> = ({ sticks }) => {
   const [bgImg, __] = useState(
-    "https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547_1280.jpg"
+    "https://images6.alphacoders.com/651/651136.jpg"
   );
   return (
     <>
@@ -21,6 +21,8 @@ const DesktopCanvas: React.FC<DesktopCanvasProps> = ({ sticks }) => {
         style={{
           border: "1px solid black",
           background: isURL(bgImg) ? `url(${bgImg})` : "",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
         }}
       >
         <Layer>
