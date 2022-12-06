@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `Stick` MODIFY `icon` VARCHAR(191) NOT NULL,
+    MODIFY `position` VARCHAR(191) NOT NULL;

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layer, Stage } from "react-konva";
 import { IStick } from "../types/types";
+import { isURL } from "../ultis/utils";
 import Stick from "./Stick";
 
 interface DesktopCanvasProps {
@@ -9,13 +10,19 @@ interface DesktopCanvasProps {
 }
 
 const DesktopCanvas: React.FC<DesktopCanvasProps> = ({ sticks }) => {
+  const [bgImg, __] = useState(
+    "https://images6.alphacoders.com/651/651136.jpg"
+  );
   return (
     <>
       <Stage
-        width={700}
-        height={700}
+        width={window.innerWidth}
+        height={window.innerHeight}
         style={{
           border: "1px solid black",
+          background: isURL(bgImg) ? `url(${bgImg})` : "",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
         }}
       >
         <Layer>

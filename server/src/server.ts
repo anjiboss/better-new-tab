@@ -9,6 +9,7 @@ import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/user";
 import { routeLogger } from "@utils/routeLogger";
 import { iconRouter } from "./routes/icon";
+import { sticksRouter } from "./routes/sticks";
 
 const PORT = process.env.PORT || 5000;
 
@@ -25,6 +26,7 @@ async function main() {
   app.use("/api/v1/auth", authRouter);
   app.use("/api/v1/user", userRouter);
   app.use("/api/v1/icon", iconRouter);
+  app.use("/api/v1/stick", sticksRouter);
 
   app.get("/", (__, rs) => {
     rs.json({

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Image } from "react-konva";
-
 interface Props {
   src: string;
   x: number;
@@ -32,8 +31,8 @@ const URLImage: React.FC<Props> = (
           image={image}
           x={props.x}
           y={props.y}
-          width={32}
-          height={32}
+          width={64}
+          height={64}
         />
       )}
     </>
