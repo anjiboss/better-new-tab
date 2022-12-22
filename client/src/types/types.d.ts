@@ -18,6 +18,7 @@ export interface IStick {
   id: string;
   title: string;
   url: string;
+  updatedAt: Date;
   icon: {
     isCached: boolean;
     base64: string;
