@@ -1,22 +1,10 @@
 import React, { useEffect, useState } from "react";
 import DesktopCanvas from "../components/DesktopCanvas";
 import ToolBar from "../components/ToolBar";
-import { KEY } from "../constant/default";
 import AppContext from "../context/AppContext";
 import { useStick } from "../hooks/useStick";
 import { IStick } from "../types/types";
-
-async function getSticks(): Promise<IStick[]> {
-  const stickString = window.localStorage.getItem(KEY);
-  if (stickString) {
-    try {
-      return JSON.parse(stickString);
-    } catch (__) {
-      console.log("pasing to json error with : ", stickString);
-    }
-  }
-  return [];
-}
+import { getSticks } from "../ultis/stickUtils";
 
 const Home: React.FC = () => {
   const [sticks, setSticks] = useState<IStick[]>([]);

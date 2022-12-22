@@ -32,7 +32,7 @@ export const useStick = (sticks: IStick[]) => {
     const oldStick = sticks.filter((stick) => stick.id !== stickToUpdate.id);
     window.localStorage.setItem(
       KEY,
-      JSON.stringify([...oldStick, stickToUpdate])
+      JSON.stringify([...oldStick, { ...stickToUpdate, updatedAt: new Date() }])
     );
     updateToSever([...oldStick, stickToUpdate]);
     console.log("DB updated for stick: ", stickToUpdate.title);

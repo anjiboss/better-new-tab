@@ -13,19 +13,6 @@ import { toasti } from "./ultis/_visual";
 import { RequestError } from "./types/types";
 import GlobalContext from "./context/GlobalContext";
 
-const getSticks = async () => {
-  const accessToken = window.localStorage.getItem("accessToken");
-  axios({
-    method: "GET",
-    url: `${import.meta.env.VITE_API_URL}/api/v1/stick`,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
-  }).then(({ data }) => {
-    console.log(data);
-  });
-};
-
 function App() {
   const [isFetching, setIsFetching] = useState(true);
   const [logged, setLogged] = useState(false);
@@ -41,7 +28,6 @@ function App() {
     })
       .then(({ data }) => {
         setIsFetching(false);
-        getSticks();
         if (data.ok) {
           setLogged(true);
         }
