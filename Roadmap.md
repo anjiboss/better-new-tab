@@ -1,0 +1,2 @@
+- [ ] Add setting:
+  - [ ] Sync prefer: Remote first or Local first if have diff.
